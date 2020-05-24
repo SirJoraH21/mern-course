@@ -1,26 +1,29 @@
-const  jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken')
 const config = require('config')
 
 module.exports = (req, res, next) => {
-if (req === 'OPTIONS'){
-    return next()
-}
-
-try {
-
-    const token = req.headers.authorization.split(' ')[1] // Bearer Token
-
-    if (!token) {
-        return res.status(401).json({ message: 'Відстня авторизація' })
+    if (req.method === 'OPTIONS') {
+        return next()
     }
 
-    const decoded = jwt.verify(token, config.get('jwtSecret'))
-    req.user = decoded
-    next()
+    try {
 
-} catch (e) {
-    return res.status(401).json({ message: 'Відстня авторизація' })
-}
+        const token = req.headers.authorization.split(' ')[1] // Bearer Token
 
+        if (!token) {
+            return res.status(401).json({
+                message: 'Відсутня авторизація'
+            })
+        }
+
+        const decoded = jwt.verify(token, config.get('jwtSecret'))
+        req.user = decoded
+        next()
+
+    } catch (e) {
+        return res.status(401).json({
+            message: 'Відсутня авторизація'
+        })
+    }
 
 }
