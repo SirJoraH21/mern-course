@@ -12,21 +12,23 @@ if (!links.length) {
               <th>№</th>
               <th>Оригінальна</th>
               <th>Скорочена</th>
-              <th>Перейти</th>
+              <th>Деталі</th>
           </tr>
         </thead>
 
         <tbody>
-            { links.map((link, index) => {
-                return (
-            <tr key={link._id}>
+        { links.map((link, index) => {
+        return (
+          <tr key={link._id}>
             <td>{index + 1}</td>
             <td>{link.from}</td>
             <td>{link.to}</td>
-            <td><Link to={`/detail/${link._id}`}>Перейти</Link></td>
-            </tr>
-                )
-            }) }
+            <td>
+              <Link to={`/detail/${link._id}`}>Перейти</Link>
+            </td>
+          </tr>
+        )
+      }) }
         </tbody>
       </table>
     )
